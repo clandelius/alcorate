@@ -21,7 +21,12 @@ public class Products {
 
     public static void fillDrinks() {
         for (Row row : rows) {
-            Drink drink = new Drink(row);
+            String name = row.getCell(3).getStringCellValue();
+            String price = row.getCell(5).getStringCellValue();
+            String type = row.getCell(11).getStringCellValue();
+            String alcoholpercentage = row.getCell(22).getStringCellValue();
+            int year = (int) row.getCell(20).getNumericCellValue();
+            Drink drink = new Drink(name, price, type, alcoholpercentage, year);
             drinks.add(drink);      //field
         }
     }
@@ -29,7 +34,7 @@ public class Products {
     public static void main(String[] args) {
         Products products = new Products();
         for (Drink drink : drinks) {
-            System.out.println("Name: " + drink.getName() + " | Price: " + drink.getPrice() + " | Type: " + drink.getType() + " | Alcohol Percentage: " + drink.getAlcoholpercentage());
+            System.out.println("Name: " + drink.getName() + " | Price: " + drink.getPrice() + " | Type: " + drink.getType() + " | Year: " + drink.getYear() + " | Alcohol Percentage: " + drink.getAlcoholpercentage());
         }
     }
 }
