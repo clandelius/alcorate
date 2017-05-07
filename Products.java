@@ -33,7 +33,6 @@ public class Products {
 
     public ArrayList<Drink> getDrinks() {
         return drinks;
-    }
 
     //public static void main(String[] args) {
      //   Products products = new Products();
