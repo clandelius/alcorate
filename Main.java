@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,6 +25,7 @@ public class Main extends Application{
     Image downVoteImage = new Image(getClass().getResourceAsStream("downvote.png"));
     Products products = new Products();
     ArrayList<Drink> drinks = products.getDrinks();
+    ComboBox<String> comboBox;
 
 
     public static void main(String[] args) {
@@ -62,7 +64,13 @@ public class Main extends Application{
         //Alcorate layout
         mainScene = new Scene(createContent(drinks), 600, 600);
         startLayout.setAlignment(Pos.CENTER);
-
+        comboBox = new ComboBox<>();
+        comboBox.getItems().addAll(
+                "Name",
+                "Price",
+                "%",
+                "Year"
+        );
         window.setScene(startScene);
         window.setTitle("Alcorate");
         window.show();
@@ -96,6 +104,21 @@ public class Main extends Application{
 
     public Parent createContent(ArrayList<Drink> drinks) {
         BorderPane layout = new BorderPane();
+        HBox hBox = new HBox(20);
+        comboBox = new ComboBox<>();
+        comboBox.getItems().addAll(
+                "Name",
+                "Price",
+                "%",
+                "Year"
+        );
+        comboBox.setPromptText("Sort");
+        comboBox.setPadding(new Insets(15,20,15,20));
+
+        hBox.getChildren().add(comboBox);
+        hBox.setAlignment(Pos.TOP_RIGHT);
+        //layout.getChildren().add(hBox);
+        layout.setTop(hBox);
 
         List<HBoxCell> list = new ArrayList<>();
         for (Drink drink : drinks) {
