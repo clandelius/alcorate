@@ -1,5 +1,3 @@
-//package sample;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +22,8 @@ public class Main extends Application{
     Scene startScene, kidScene, mainScene;
     Image upVoteImage = new Image(getClass().getResourceAsStream("upvote.png"));
     Image downVoteImage = new Image(getClass().getResourceAsStream("downvote.png"));
+    Products products = new Products();
+    ArrayList<Drink> drinks = products.getDrinks();
 
 
     public static void main(String[] args) {
@@ -34,8 +34,6 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception{
         window = primaryStage;
-        Products products = new Products();
-        ArrayList<Drink> drinks = products.getDrinks();
 
         Label welcome = new Label("Welcome to Alcorate!" );
 
@@ -53,20 +51,13 @@ public class Main extends Application{
 
         //Start layout
         VBox startLayout = new VBox(20);
-        startLayout.getChildren().addAll(button1, button2);
-        startScene = new Scene(startLayout, 200, 200);
+        startLayout.getChildren().addAll(welcome, button1, button2);
+        startScene = new Scene(startLayout, 600, 600);
 
         //Kid layout
         VBox kidLayout = new VBox(20);
         kidLayout.getChildren().add(kidLabel);
-        kidScene = new Scene(kidLayout, 300, 300);
-
-
-        //VBox mainLayout = new VBox();
-
-        //ListView<String> list = addList(drinks);
-
-        //mainLayout.getChildren().addAll(welcome, list);
+        kidScene = new Scene(kidLayout, 600, 600);
 
         //Alcorate layout
         mainScene = new Scene(createContent(drinks), 600, 600);
@@ -77,20 +68,8 @@ public class Main extends Application{
         window.show();
     }
 
-    //private ListView<String> addList(ArrayList<Drink> drinks) {
-     //   ListView<String> list = new ListView<>();
-       // ObservableList<String> items = FXCollections.observableArrayList ();
-        //for (Drink drink : drinks) {
-          //  items.add(drink.getDrinkString());
-   //     }
-     //   list.setItems(items);
-       // return list;
-   // }
-
     public class HBoxCell extends HBox {
         Label label = new Label();
-        //Button upvote = new Button();
-        //Button downvote = new Button();
         Label emptyLabel = new Label(" ");
 
         HBoxCell(String labelText, String buttonText1, String buttonText2, Drink drink) {
@@ -98,7 +77,7 @@ public class Main extends Application{
 
             label.setText(labelText);
             label.setMaxWidth(Double.MAX_VALUE);
-            //HBox.setHgrow(label, Priority.ALWAYS);
+            HBox.setHgrow(label, Priority.ALWAYS);
 
 
             String downVotes = drink.getDownVotes() + "";
@@ -108,13 +87,8 @@ public class Main extends Application{
             Button upVote = new Button(upVotes, new ImageView(upVoteImage));
             Button downVote = new Button(downVotes, new ImageView(downVoteImage));
 
-            upVote.setOnAction(e -> updateView("upvote", window, drink));
-            downVote.setOnAction(e -> updateView("downvote", window, drink));
-
-            //upvote.setText(buttonText1);
-            //downvote.setText(buttonText2);
-
-
+            upVote.setOnAction(e -> updateView("upvote", drink));
+            downVote.setOnAction(e -> updateView("downvote", drink));
 
             this.getChildren().addAll(label, upVote, emptyLabel, downVote);
         }
@@ -137,26 +111,23 @@ public class Main extends Application{
         return layout;
     }
 
-    private void updateView(String action, Stage primaryStage, Drink drink){
+    private void updateView(String action, Drink drink){
 
-        HBox layout = new HBox();
-
-        if(action.equals("upvote"))
-        {
+        if(action.equals("upvote")) {
             drink.upvote();
-            try {
-                start(primaryStage);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            refresh();
         }
         else {
             drink.downvote();
-            try {
-                start(primaryStage);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            refresh();
         }
+    }
+
+    private void refresh() {
+        mainScene = new Scene(createContent(drinks), 600, 600);
+
+        window.setScene(mainScene);
+        window.setTitle("Alcorate");
+        window.show();
     }
 }
