@@ -8,9 +8,9 @@ import java.util.ArrayList;
 public class Products {
 
     //fields
-    static ExcelReader excelReader;
-    static ArrayList<Row> rows;
-    static ArrayList<Drink> drinks;
+     ExcelReader excelReader;
+     ArrayList<Row> rows;
+     ArrayList<Drink> drinks;
 
     public Products(){
         excelReader = new ExcelReader("systemet.xls");
@@ -19,7 +19,7 @@ public class Products {
         fillDrinks();
     }
 
-    public static void fillDrinks() {
+    private void fillDrinks() {
         for (Row row : rows) {
             String name = row.getCell(3).getStringCellValue();
             String price = row.getCell(5).getStringCellValue();
@@ -31,10 +31,13 @@ public class Products {
         }
     }
 
-    public static void main(String[] args) {
-        Products products = new Products();
-        for (Drink drink : drinks) {
-            System.out.println("Name: " + drink.getName() + " | Price: " + drink.getPrice() + " | Type: " + drink.getType() + " | Year: " + drink.getYear() + " | Alcohol Percentage: " + drink.getAlcoholpercentage());
-        }
-    }
+    public ArrayList<Drink> getDrinks() {
+        return drinks;
+
+    //public static void main(String[] args) {
+     //   Products products = new Products();
+    //for (Drink drink : drinks) {
+      //      System.out.println("Name: " + drink.getName() + " | Price: " + drink.getPrice() + " | Type: " + drink.getType() + " | Year: " + drink.getYear() + " | Alcohol Percentage: " + drink.getAlcoholpercentage());
+        //}
+   // }
 }
