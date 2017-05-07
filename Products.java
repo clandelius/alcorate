@@ -33,11 +33,5 @@ public class Products {
 
     public ArrayList<Drink> getDrinks() {
         return drinks;
-
-    //public static void main(String[] args) {
-     //   Products products = new Products();
-    //for (Drink drink : drinks) {
-      //      System.out.println("Name: " + drink.getName() + " | Price: " + drink.getPrice() + " | Type: " + drink.getType() + " | Year: " + drink.getYear() + " | Alcohol Percentage: " + drink.getAlcoholpercentage());
-        //}
-   // }
+    }
 }
