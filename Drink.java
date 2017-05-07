@@ -1,5 +1,3 @@
-import org.apache.poi.ss.usermodel.Row;
-
 /**
  * Created by macbook on 2017-05-06.
  */
@@ -60,5 +58,9 @@ public class Drink {
 
     public int getDownVotes() {
         return downvotes;
+    }
+
+    public String getDrinkString() {
+        return name + "\n" + price + " kr   " + type + "    " + alcoholpercentage + "   Year: " + getYear();
     }
 }
