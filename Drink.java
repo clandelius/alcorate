@@ -1,3 +1,8 @@
+import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.*;
+
 /**
  * Created by macbook on 2017-05-06.
  */
@@ -9,6 +14,10 @@ public class Drink {
     private int year;
     private int upvotes;
     private int downvotes;
+
+    public Drink() {
+
+    }
 
     public Drink(String name, String price, String type, String alcoholpercentage, int year) {
         this.name = name;
@@ -60,7 +69,14 @@ public class Drink {
         return downvotes;
     }
 
+    public void setAge()
+    {
+        this.year = 9999;
+    }
+
+
     public String getDrinkString() {
         return name + "\n" + price + " kr   " + type + "    " + alcoholpercentage + "   Year: " + getYear();
     }
+
 }
