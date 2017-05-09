@@ -1,7 +1,5 @@
 # Alcorate
-This is a computer program where you can rate your favorite liquor and spirit and see what other people think.
-
-This is to make it easier for people to try new things! Making a change.
+This is a computer program where you can like / dislike a specifik whiskey or cognac that you have tried out. See which ones people like and get inspired to try out new beverages. The list of drinks in the program can get sorted by name, price, year, alcohol percentage and amount of likes, so that you can find the beverage that you are looking for more quickly. On the right hand side of the program, you can find the like and disklike button. Notice that you have to be of drinking age to use the program.
 
 #### Scope
 Each drink will have information on name, year, price, alcohol percentage and type of spirit. We will only be working with whiskey and cognac. 
