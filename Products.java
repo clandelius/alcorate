@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 /**
  * Created by macbook on 2017-05-06.
+ * Products send the excel document to the ExcelReader and creates an ArrayList of Drinks from the result.
  */
 
 public class Products {
@@ -12,6 +13,10 @@ public class Products {
      ArrayList<Row> rows;
      ArrayList<Drink> drinks;
 
+    /**
+     * The constructor send the excel document systemet.xls to ExcelReader, collects the ArrayList of rows and
+     * converts them to an arrayList of drinks.
+     */
     public Products(){
         excelReader = new ExcelReader("systemet.xls");
         drinks = new ArrayList<>();
@@ -20,6 +25,9 @@ public class Products {
     }
 
     private void fillDrinks() {
+        if (rows.size() < 1) {
+            return;
+        }
         for (Row row : rows) {
             String name = row.getCell(3).getStringCellValue();
             String price = row.getCell(5).getStringCellValue();
@@ -31,6 +39,11 @@ public class Products {
         }
     }
 
+    /**
+     * This method returns the ArrayList of drinks created by the constructor. If the rows list is empty
+     * the drinks list will also be empty.
+     * @return  An ArrayList of drinks.
+     */
     public ArrayList<Drink> getDrinks() {
         return drinks;
     }

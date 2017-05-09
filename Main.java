@@ -8,24 +8,22 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main extends Application{
 
-    Stage window;
-    Scene startScene, kidScene, mainScene;
-    Image upVoteImage = new Image(getClass().getResourceAsStream("upvote.png"));
-    Image downVoteImage = new Image(getClass().getResourceAsStream("downvote.png"));
-    Products products = new Products();
-    ArrayList<Drink> drinks = products.getDrinks();
-    ComboBox<String> comboBox;
+    private Stage window;
+    private Scene startScene, kidScene, mainScene;
+    private Image upVoteImage = new Image(getClass().getResourceAsStream("upvote.png"));
+    private Image downVoteImage = new Image(getClass().getResourceAsStream("downvote.png"));
+    private Products products = new Products();
+    private ArrayList<Drink> drinks = products.getDrinks();
+    private ComboBox<String> comboBox;
 
 
     public static void main(String[] args) {
@@ -38,7 +36,9 @@ public class Main extends Application{
         window = primaryStage;
 
         Label welcome = new Label("Welcome to Alcorate!" );
+        welcome.setTextFill(Color.WHITE);
 
+        welcome.setFont(new Font("Arial",50));
 
         Label kidLabel = new Label("Go get an Ice cream instead");
         kidLabel.setAlignment(Pos.CENTER);
@@ -52,9 +52,16 @@ public class Main extends Application{
         button2.setOnAction(e ->window.setScene(mainScene));
 
         //Start layout
+        StackPane root = new StackPane();
+        Scene startScene = new Scene(root, 600, 500);
+        startScene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+
         VBox startLayout = new VBox(20);
         startLayout.getChildren().addAll(welcome, button1, button2);
-        startScene = new Scene(startLayout, 600, 600);
+        root.setId("pane");
+        root.getChildren().add(startLayout);
+        startLayout.setAlignment(Pos.CENTER);
+
 
         //Kid layout
         VBox kidLayout = new VBox(20);
@@ -63,14 +70,7 @@ public class Main extends Application{
 
         //Alcorate layout
         mainScene = new Scene(createContent(drinks), 600, 600);
-        startLayout.setAlignment(Pos.CENTER);
-        comboBox = new ComboBox<>();
-        comboBox.getItems().addAll(
-                "Name",
-                "Price",
-                "%",
-                "Year"
-        );
+
         window.setScene(startScene);
         window.setTitle("Alcorate");
         window.show();
@@ -102,27 +102,37 @@ public class Main extends Application{
         }
     }
 
+
     public Parent createContent(ArrayList<Drink> drinks) {
         BorderPane layout = new BorderPane();
         HBox hBox = new HBox(20);
+
+        //Drop menu
         comboBox = new ComboBox<>();
         comboBox.getItems().addAll(
                 "Name",
                 "Price",
                 "%",
-                "Year"
+                "Year",
+                "Most up votes",
+                "Most down votes",
+                "Best vote ratio"
         );
         comboBox.setPromptText("Sort");
         comboBox.setPadding(new Insets(15,20,15,20));
 
-        hBox.getChildren().add(comboBox);
+        //Actions when choosing in the drop menu
+        comboBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> window.setScene(mainScene));
+
+        hBox.getChildren().addAll(comboBox);
         hBox.setAlignment(Pos.TOP_RIGHT);
+
         //layout.getChildren().add(hBox);
         layout.setTop(hBox);
 
         List<HBoxCell> list = new ArrayList<>();
         for (Drink drink : drinks) {
-            list.add(new HBoxCell(drink.getDrinkString(), "Upvote", "Downvote", drink));
+            list.add(new HBoxCell(drink.getDrinkString(), "Upvote","Downvote", drink));
         }
 
         ListView<HBoxCell> listView = new ListView<>();
@@ -150,7 +160,7 @@ public class Main extends Application{
         mainScene = new Scene(createContent(drinks), 600, 600);
 
         window.setScene(mainScene);
-       // window.setTitle("Alcorate");
-        //window.show();
+        window.setTitle("Alcorate");
+        window.show();
     }
 }
