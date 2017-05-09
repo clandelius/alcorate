@@ -25,14 +25,6 @@ public class Main extends Application{
     private Products products = new Products();
     private ArrayList<Drink> drinks = products.getDrinks();
 
-    /*
-    private ArrayList<Drink> nameSortedDrinks = products.getDrinks();
-    private ArrayList<Drink> priceSortedDrinks = products.getDrinks();
-    private ArrayList<Drink> ageSortedDrinks = products.getDrinks();
-    private ArrayList<Drink> upSortedDrinks = products.getDrinks();
-    private ArrayList<Drink> downSortedDrinks = products.getDrinks();
-    private ArrayList<Drink> bestSortedDrinks = products.getDrinks();
-    */
 
     private ComboBox<String> comboBox;
 
@@ -42,11 +34,9 @@ public class Main extends Application{
         Collections.sort(drinks, new NameComparator()); //sorts the products by name
     }
 
-
     public static void main(String[] args) {
         launch(args);
     }
-
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -130,7 +120,7 @@ public class Main extends Application{
         comboBox.getItems().addAll(
                 "Name",
                 "Price",
-                "%",
+                "Alcohol Percentage",
                 "Year",
                 "Most up votes",
                 "Most down votes",
@@ -149,9 +139,7 @@ public class Main extends Application{
 
         List<HBoxCell> list = new ArrayList<>();
         for (Drink drink : drinks) {
-            //list.add(new HBoxCell(drink.getDrinkString(), "Upvote","Downvote", drink));
             list.add(new HBoxCell(drink.getDrinkString(), drink));
-
         }
 
         ListView<HBoxCell> listView = new ListView<>();
@@ -206,6 +194,10 @@ public class Main extends Application{
         }
         else if(newValue.equals("Best vote ratio")) {
             Collections.sort(drinks, new BestVoteRatioComparator()); //sorts the products by most up votes
+        }
+        else if(newValue.equals("Alcohol Percentage"))
+        {
+            Collections.sort(drinks, new PercentComparator()); //sorts the products by most percentage
         }
         refresh();
     }
