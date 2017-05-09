@@ -10,6 +10,7 @@ public class MostUpVotesComparator implements Comparator<Drink> {
         int d1UpVotes = d1.getUpvotes();
         int d2UpVotes = d2.getUpvotes();
 
-        return d1UpVotes - d2UpVotes;
+        //return d1UpVotes - d2UpVotes; Changed place to make them appear on top
+        return d2UpVotes - d1UpVotes;
     }
 }

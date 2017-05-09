@@ -11,6 +11,7 @@ public class MostDownVotesComparator implements Comparator<Drink> {
         int d1DownVotes = d1.getDownVotes();
         int d2DownVotes = d2.getDownVotes();
 
-        return d1DownVotes - d2DownVotes;
+        //return d1DownVotes - d2DownVotes; Changed place to make them appear on top
+        return d2DownVotes - d1DownVotes;
     }
 }

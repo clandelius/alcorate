@@ -14,16 +14,33 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 public class Main extends Application{
 
     private Stage window;
-    private Scene startScene, kidScene, mainScene;
+    private Scene startScene, kidScene, mainScene;// , nameScene, priceScene, ageScene, upVoteScene, downVoteScene, bestVoteScene;
     private Image upVoteImage = new Image(getClass().getResourceAsStream("upvote.png"));
     private Image downVoteImage = new Image(getClass().getResourceAsStream("downvote.png"));
     private Products products = new Products();
     private ArrayList<Drink> drinks = products.getDrinks();
+
+    /*
+    private ArrayList<Drink> nameSortedDrinks = products.getDrinks();
+    private ArrayList<Drink> priceSortedDrinks = products.getDrinks();
+    private ArrayList<Drink> ageSortedDrinks = products.getDrinks();
+    private ArrayList<Drink> upSortedDrinks = products.getDrinks();
+    private ArrayList<Drink> downSortedDrinks = products.getDrinks();
+    private ArrayList<Drink> bestSortedDrinks = products.getDrinks();
+    */
+
     private ComboBox<String> comboBox;
+
+
+    //First mainScene is sorted by name
+    public Main() {
+        Collections.sort(drinks, new NameComparator()); //sorts the products by name
+    }
 
 
     public static void main(String[] args) {
@@ -71,6 +88,7 @@ public class Main extends Application{
         //Alcorate layout
         mainScene = new Scene(createContent(drinks), 600, 600);
 
+
         window.setScene(startScene);
         window.setTitle("Alcorate");
         window.show();
@@ -80,7 +98,7 @@ public class Main extends Application{
         Label label = new Label();
         Label emptyLabel = new Label(" ");
 
-        HBoxCell(String labelText, String buttonText1, String buttonText2, Drink drink) {
+        HBoxCell(String labelText, Drink drink) {
             super();
 
             label.setText(labelText);
@@ -122,17 +140,18 @@ public class Main extends Application{
         comboBox.setPadding(new Insets(15,20,15,20));
 
         //Actions when choosing in the drop menu
-        comboBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> window.setScene(mainScene));
-
+        //call new setEvents method
+        comboBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> setEvents(newValue));
         hBox.getChildren().addAll(comboBox);
         hBox.setAlignment(Pos.TOP_RIGHT);
 
-        //layout.getChildren().add(hBox);
         layout.setTop(hBox);
 
         List<HBoxCell> list = new ArrayList<>();
         for (Drink drink : drinks) {
-            list.add(new HBoxCell(drink.getDrinkString(), "Upvote","Downvote", drink));
+            //list.add(new HBoxCell(drink.getDrinkString(), "Upvote","Downvote", drink));
+            list.add(new HBoxCell(drink.getDrinkString(), drink));
+
         }
 
         ListView<HBoxCell> listView = new ListView<>();
@@ -158,9 +177,36 @@ public class Main extends Application{
 
     private void refresh() {
         mainScene = new Scene(createContent(drinks), 600, 600);
-
         window.setScene(mainScene);
         window.setTitle("Alcorate");
         window.show();
+    }
+
+    /*
+     * Sorts and refreshes depending on combobox choice.
+     */
+    private void setEvents(String newValue)
+    {
+        if(newValue.equals("Name")) {
+            Collections.sort(drinks, new NameComparator()); //sorts the products by name
+        }
+        else if(newValue.equals("Price"))
+        {
+            Collections.sort(drinks, new PriceComparator()); //sorts the products by price
+        }
+        else if(newValue.equals("Year"))
+        {
+            Collections.sort(drinks, new AgeComparator()); //sorts the products by year
+        }
+        else if(newValue.equals("Most up votes")) {
+            Collections.sort(drinks, new MostUpVotesComparator()); //sorts the products by most up votes
+        }
+        else if(newValue.equals("Most down votes")) {
+            Collections.sort(drinks, new MostDownVotesComparator()); //sorts the products by most up votes
+        }
+        else if(newValue.equals("Best vote ratio")) {
+            Collections.sort(drinks, new BestVoteRatioComparator()); //sorts the products by most up votes
+        }
+        refresh();
     }
 }
