@@ -9,9 +9,18 @@ public class PriceComparator implements Comparator<Drink> {
     @Override
     public int compare(Drink d1, Drink d2) {
 
-        int d1Price = Integer.parseInt(d1.getPrice());
-        int d2Price = Integer.parseInt(d2.getPrice());
+        //int d1Price = (int) Integer.parseInt(d1.getPrice());
+        //int d2Price = (int) Integer.parseInt(d2.getPrice());
 
+        double d1Priced = Double.parseDouble(d1.getPrice());
+        double d2Priced = Double.parseDouble(d2.getPrice());
+
+        int d1Price = (int) d1Priced;
+        int d2Price = (int) d2Priced;
+
+
+
+        /*
         if(d1Price > d2Price)
         {
             return 1;
@@ -23,7 +32,8 @@ public class PriceComparator implements Comparator<Drink> {
         else {
             return -1;
         }
+        */
 
-        //return d1Price - d2Price; instead, but don't know why.
+        return d1Price - d2Price; //instead, but don't know why.
     }
 }
