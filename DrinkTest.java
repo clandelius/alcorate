@@ -40,10 +40,14 @@ public class DrinkTest {
 
     @org.junit.Test
     public void getYear() throws Exception {
-        assertTrue(drink.getYear().equals("2014"));
-        assertFalse(drink.getYear().equals(""));
-        assertTrue(drink2.getYear().equals("N/A"));
-        assertFalse(drink2.getYear().equals(""));
+        assertTrue(drink.getYear() == 2014);
+        assertTrue(drink2.getYear() == 9999);
+    }
+
+    @org.junit.Test
+    public void displayYear() throws Exception{
+        assertTrue(drink.displayYear().equals("2014"));
+        assertTrue(drink2.displayYear().equals("N/A"));
     }
 
     @org.junit.Test
