@@ -40,25 +40,6 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception{
         window = primaryStage;
-        searchText = new TextField();
-        Label searchLabel = new Label("First Text");
-        Button searchButton = new Button("Search Button");
-
-        searchButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("The button has been pressed");
-                searchLabel.setText((searchText.getText()));
-            }
-        });
-
-        BorderPane searchPane = new BorderPane(); // A new top pane?
-        searchPane.setTop(searchText);
-        searchPane.setRight(searchButton);
-        searchPane.setCenter(searchLabel);
-
-        searchScene = new Scene(searchPane);
-
 
         DropShadow ds = new DropShadow();
         ds.setColor(Color.color(0.4f, 0.4f, 0.4f));
@@ -148,6 +129,7 @@ public class Main extends Application{
     public Parent createContent(ArrayList<Drink> drinks) {
         BorderPane layout = new BorderPane();
         HBox hBox = new HBox(20);
+        HBox searchBox = new HBox(20);
 
         //Drop menu
         comboBox = new ComboBox<>();
@@ -173,7 +155,95 @@ public class Main extends Application{
         hBox.getChildren().addAll(comboBox);
         hBox.setAlignment(Pos.TOP_RIGHT);
 
+
+
         layout.setTop(hBox);
+
+
+
+
+        // Search function
+        searchText = new TextField();
+        Label searchLabel = new Label("First Text");
+        Button searchButton = new Button("Search:");
+        searchButton.setFont(new Font("Arial", 15));
+        searchLabel.setPadding(new Insets(20, 30, 20, 30));
+        searchButton.setPadding(new Insets(10, 40, 10, 40));
+        searchText.setPadding(new Insets(10, 80, 10, 80));
+        searchButton.setText("S");
+
+        searchBox.getChildren().addAll(searchButton, searchText, searchLabel);
+        layout.getChildren().addAll(searchBox);
+
+        searchBox.setAlignment(Pos.TOP_LEFT);
+
+        searchButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //System.out.println("The button has been pressed");
+
+                //searchLabel.setText((searchText.getText()));
+
+                int index = searchFunction(searchText.getText());
+                Label sLabel;
+
+                if(index == -1) {
+
+                    //sLabel = new Label("No such drink!");
+                    searchLabel.setText("No such drink!");
+                }
+                else {
+                    //sLabel = new Label("The drink does exist: " + drinks.get(index).getName());
+                    searchLabel.setText("The drink does\n exist: " + drinks.get(index).getName());
+                }
+
+                /*
+                sLabel.setTextFill(Color.WHITE);
+                sLabel.setAlignment(Pos.CENTER);
+                sLabel.setFont(new Font("Arial", 40));
+                */
+                searchLabel.setTextFill(Color.WHITE);
+                searchLabel.setAlignment(Pos.CENTER);
+                searchLabel.setFont(new Font("Arial", 15));
+
+                //Kid layout
+                VBox searchLayout = new VBox(20);
+                StackPane searchStackPane = new StackPane();
+                Button returnButton = new Button("Go back to menu");
+                returnButton.setAlignment(Pos.TOP_LEFT);
+                returnButton.setOnAction(e ->window.setScene(mainScene));
+                searchLayout.getChildren().addAll(searchLabel, returnButton);
+                searchScene = new Scene(searchStackPane, 600, 500);
+                searchScene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+                searchStackPane.setId("otherview");
+                searchStackPane.getChildren().add(searchLayout);
+                searchLayout.setAlignment(Pos.CENTER);
+                window.setScene(searchScene);
+
+            }
+        });
+
+
+
+        /*
+        BorderPane searchPane = new BorderPane(); // A new top pane?
+        searchPane.setTop(searchText);
+        searchPane.setRight(searchButton);
+        searchPane.setCenter(searchLabel);
+        layout.setBottom(searchText);
+        layout.setBottom(searchButton);
+        layout.setBottom(searchLabel);
+
+
+        searchScene = new Scene(searchPane);
+        */
+
+        //layout.setBottom(searchBox);
+
+
+
+
+
 
         List<HBoxCell> list = new ArrayList<>();
         for (Drink drink : drinks) {
@@ -253,5 +323,17 @@ public class Main extends Application{
             Collections.sort(drinks, new PercentComparatorLowHigh()); //sorts the products by most percentage
         }
         refresh();
+    }
+
+    private int searchFunction(String drinkName)
+    {
+        int index = 0;
+        for (Drink drink: drinks) {
+            if(drink.getName().equals(drinkName)) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
     }
 }
