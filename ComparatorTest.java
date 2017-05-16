@@ -18,10 +18,10 @@ public class ComparatorTest {
     @org.junit.Before
     public void setUp() {
         drinks = new ArrayList<>();
-        d1 = new Drink("Q", "1", "qa", "1,00%", 0);
-        d2 = new Drink("Ab", "11", "aa", "11,00%", 1901);
-        d3 = new Drink("Ac", "12", "ab", "12,00%", 1902);
-        d4 = new Drink("Ba", "13", "ba", "13,00%", 1903);
+        d1 = new Drink("Q", "100", "qa", "100.00%", 0);
+        d2 = new Drink("Ab", "11", "aa", "11.00%", 1901);
+        d3 = new Drink("Ac", "12", "ab", "12.00%", 1902);
+        d4 = new Drink("Ba", "13", "ba", "13.00%", 1903);
         drinks.add(d1);
         drinks.add(d2);
         drinks.add(d3);
@@ -31,7 +31,7 @@ public class ComparatorTest {
     @org.junit.Test
     public void ageHighLowTest() {
         ArrayList<Drink> ageSortedDrinksHL = new ArrayList<>();
-        addSortedDrinks(ageSortedDrinksHL);
+        addReversedSortedDrinks(ageSortedDrinksHL);
 
         assertFalse(drinks.equals(ageSortedDrinksHL));
         Collections.sort(drinks, new AgeComparatorHighLow());
@@ -49,29 +49,28 @@ public class ComparatorTest {
     }
 
     @Test
-    public void nameTestHighLow() {
+    public void nameTestAZ() {
         ArrayList<Drink> nameSortedDrinksHL = new ArrayList<>();
         addSortedDrinks(nameSortedDrinksHL);
 
         assertFalse(drinks.equals(nameSortedDrinksHL));
-        Collections.sort(drinks, new NameComparatorHighLow());
+        Collections.sort(drinks, new NameComparatorAZ());
         assertTrue(drinks.equals(nameSortedDrinksHL));
     }
 
     @Test
-    public void nameTestLowHigh() {
+    public void nameTestZA() {
         ArrayList<Drink> nameSortedDrinksLH = new ArrayList<>();
-        addSortedDrinks(nameSortedDrinksLH);
-
+        addReversedSortedDrinks(nameSortedDrinksLH);
         assertFalse(drinks.equals(nameSortedDrinksLH));
-        Collections.sort(drinks, new NameComparatorLowHigh());
+        Collections.sort(drinks, new NameComparatorZA());
         assertTrue(drinks.equals(nameSortedDrinksLH));
     }
 
     @Test
     public void percentHighLowTest() {
         ArrayList<Drink> percentageSortedDrinksHL = new ArrayList<>();
-        addSortedDrinks(percentageSortedDrinksHL);
+        addReversedSortedDrinks(percentageSortedDrinksHL);
 
         assertFalse(drinks.equals(percentageSortedDrinksHL));
         Collections.sort(drinks, new PercentComparatorHighLow());
@@ -91,7 +90,7 @@ public class ComparatorTest {
     @Test
     public void priceHighLowTest() {
         ArrayList<Drink> priceSortedDrinksHL = new ArrayList<>();
-        addSortedDrinks(priceSortedDrinksHL);
+        addReversedSortedDrinks(priceSortedDrinksHL);
 
         assertFalse(drinks.equals(priceSortedDrinksHL));
         Collections.sort(drinks, new PriceComparatorHighLow());
@@ -146,6 +145,13 @@ public class ComparatorTest {
         list.add(d3);
         list.add(d4);
         list.add(d1);
+    }
+
+    private void addReversedSortedDrinks(ArrayList<Drink> list) {
+        list.add(d1);
+        list.add(d4);
+        list.add(d3);
+        list.add(d2);
     }
 
     private void vote() {
