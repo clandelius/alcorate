@@ -128,7 +128,8 @@ public class Main extends Application{
         //Drop menu
         comboBox = new ComboBox<>();
         comboBox.getItems().addAll(
-                "Name",
+                "Name: A to Z",
+                "Name: Z to A",
                 "Price: low to high",
                 "Price: high to low",
                 "Alcohol %: low to high",
@@ -188,8 +189,11 @@ public class Main extends Application{
      */
     private void setEvents(String newValue)
     {
-        if(newValue.equals("Name")) {
-            Collections.sort(drinks, new NameComparator()); //sorts the products by name
+        if(newValue.equals("Name: A to Z")) {
+            Collections.sort(drinks, new NameComparatorAZ()); //sorts the products by name A to Z
+        }
+        else if(newValue.equals("Name: Z to A")) {
+            Collections.sort(drinks, new NameComparatorZA()); //sorts the products by name Z to A
         }
         else if(newValue.equals("Price: low to high"))
         {
@@ -220,7 +224,7 @@ public class Main extends Application{
         {
             Collections.sort(drinks, new PercentComparatorHighLow()); //sorts the products by most percentage
         }
-        else if(newValue.equals("Alcohol %: low to High"))
+        else if(newValue.equals("Alcohol %: low to high"))
         {
             Collections.sort(drinks, new PercentComparatorLowHigh()); //sorts the products by most percentage
         }

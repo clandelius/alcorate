@@ -4,7 +4,14 @@ import java.util.Comparator;
  * Created by Ramtin on 2017-05-09.
  */
 public class BestVoteRatioComparator implements Comparator<Drink> {
-
+    /**
+     * Compares the upvotes with downvotes associated with two drink
+     * @param d1 drink one
+     * @param d2 drink two
+     * @returns either a negative or positive integer
+     * positive means that d1 has more positive vote ratio than d2
+     * negative means that d1 has more negative vote ratio than d2
+     */
     @Override
     public int compare(Drink d1, Drink d2) {
         int d1UpVotes = d1.getUpvotes()*1000000;
