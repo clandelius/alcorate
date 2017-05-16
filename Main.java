@@ -1,6 +1,8 @@
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -21,12 +23,13 @@ import java.util.List;
 public class Main extends Application{
 
     private Stage window;
-    private Scene startScene, kidScene, mainScene;
+    private Scene startScene, kidScene, mainScene, searchScene;
     private Image upVoteImage = new Image(getClass().getResourceAsStream("upvote.png"));
     private Image downVoteImage = new Image(getClass().getResourceAsStream("downvote.png"));
     private Products products = new Products();
     private ArrayList<Drink> drinks = products.getDrinks();
     private ComboBox<String> comboBox;
+    private TextField searchText;
 
 
     public static void main(String[] args) {
@@ -37,6 +40,25 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception{
         window = primaryStage;
+        searchText = new TextField();
+        Label searchLabel = new Label("First Text");
+        Button searchButton = new Button("Search Button");
+
+        searchButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("The button has been pressed");
+                searchLabel.setText((searchText.getText()));
+            }
+        });
+
+        BorderPane searchPane = new BorderPane(); // A new top pane?
+        searchPane.setTop(searchText);
+        searchPane.setRight(searchButton);
+        searchPane.setCenter(searchLabel);
+
+        searchScene = new Scene(searchPane);
+
 
         DropShadow ds = new DropShadow();
         ds.setColor(Color.color(0.4f, 0.4f, 0.4f));
@@ -62,6 +84,8 @@ public class Main extends Application{
         kidStackPane.setId("otherview");
         kidStackPane.getChildren().add(kidLayout);
         kidLayout.setAlignment(Pos.CENTER);
+
+
 
 
 
