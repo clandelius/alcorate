@@ -5,11 +5,11 @@ This is a computer program where you can like / dislike a specifik whiskey or co
 Each drink will have information on name, year, price, alcohol percentage and type of spirit. We will only be working with whiskey and cognac.
 
 #### How to install
-All files needed are in the repository. We are using Apache poi to read the excel file. The poi-3.16 folder needs to be added to the classpath of the project. The systemet.xls is the excel file from which the program will read which has been downloaded from systembolaget's website: https://www.systembolaget.se/api/ . The program runs from the Main class.
+All files needed are in the repository. We are using Apache poi to read the excel file. The poi-3.16 folder needs to be added to the classpath of the project. The systemet.xls is the excel file from which the program will read which has been downloaded from [systembolaget's website](https://www.systembolaget.se/api/). The program runs from the Main class.
 
 #### Design
 The design will be made with JavaFX and will look something like this:
 ![Alt Text](alcorate.png)
 
 #### Testing strategy
-The comparator classes and drink class are tested using Junit4. ExcelReader and Products are dependent of the excel file and have therefor been tested using print statements to ensure they read the excel file correctly. The Main class make use of a lot of the other classes and it's own functionality is only using JavaFX stuff, which we have tested by running the program a lot of times. 
+The comparator classes and drink class are tested using Junit4. ExcelReader and Products are dependent of the excel file and have therefor been tested using print statements to ensure they read the excel file correctly. The Main class make use of a lot of the other classes and it's own functionality is only using JavaFX stuff, which we have tested by running the program a lot of times.
