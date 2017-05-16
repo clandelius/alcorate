@@ -44,12 +44,26 @@ public class Main extends Application{
         Label welcome = new Label("Welcome to Alcorate" );
         welcome.setTextFill(Color.WHITE);
         welcome.setEffect(ds);
-
         welcome.setFont(new Font("Arial",50));
-        Label kidLabel = new Label("Thank you for using Alcorate");
-        kidLabel.setTextFill(Color.BLACK);
+
+
+        Label kidLabel = new Label("Minors are welcome back\n    when they're of age");
+        kidLabel.setTextFill(Color.PINK);
         kidLabel.setEffect(ds);
         kidLabel.setAlignment(Pos.CENTER);
+        kidLabel.setFont(new Font("Arial", 40));
+
+        //Kid layout
+        VBox kidLayout = new VBox(20);
+        StackPane kidStackPane = new StackPane();
+        kidLayout.getChildren().add(kidLabel);
+        kidScene = new Scene(kidStackPane, 600, 500);
+        kidScene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+        kidStackPane.setId("otherview");
+        kidStackPane.getChildren().add(kidLayout);
+        kidLayout.setAlignment(Pos.CENTER);
+
+
 
         //Button 1
         Button button1 = new Button("I am under the age of 20");
@@ -70,11 +84,7 @@ public class Main extends Application{
         root.getChildren().add(startLayout);
         startLayout.setAlignment(Pos.CENTER);
 
-        //Kid layout
-        VBox kidLayout = new VBox(20);
-        kidLayout.getChildren().add(kidLabel);
-        kidScene = new Scene(kidLayout, 600, 600);
-        kidLayout.setAlignment(Pos.CENTER);
+
 
         //Alcorate layout
         mainScene = new Scene(createContent(drinks), 600, 600);
@@ -119,9 +129,12 @@ public class Main extends Application{
         comboBox = new ComboBox<>();
         comboBox.getItems().addAll(
                 "Name",
-                "Price",
-                "Alcohol Percentage",
-                "Year",
+                "Price: low to high",
+                "Price: high to low",
+                "Alcohol %: low to high",
+                "Alcohol %: high to low",
+                "Year: low to high",
+                "Year: high to low",
                 "Most up votes",
                 "Most down votes",
                 "Best vote ratio"
@@ -178,13 +191,21 @@ public class Main extends Application{
         if(newValue.equals("Name")) {
             Collections.sort(drinks, new NameComparator()); //sorts the products by name
         }
-        else if(newValue.equals("Price"))
+        else if(newValue.equals("Price: low to high"))
         {
-            Collections.sort(drinks, new PriceComparator()); //sorts the products by price
+            Collections.sort(drinks, new PriceComparatorLowHigh()); //sorts the products by price
         }
-        else if(newValue.equals("Year"))
+        else if(newValue.equals("Price: high to low"))
         {
-            Collections.sort(drinks, new AgeComparator()); //sorts the products by year
+            Collections.sort(drinks, new PriceComparatorHighLow()); //sorts the products by price
+        }
+        else if(newValue.equals("Year: low to high"))
+        {
+            Collections.sort(drinks, new AgeComparatorLowHigh()); //sorts the products by year
+        }
+        else if(newValue.equals("Year: high to low"))
+        {
+            Collections.sort(drinks, new AgeComparatorHighLow()); //sorts the products by year
         }
         else if(newValue.equals("Most up votes")) {
             Collections.sort(drinks, new MostUpVotesComparator()); //sorts the products by most up votes
@@ -195,9 +216,13 @@ public class Main extends Application{
         else if(newValue.equals("Best vote ratio")) {
             Collections.sort(drinks, new BestVoteRatioComparator()); //sorts the products by most up votes
         }
-        else if(newValue.equals("Alcohol Percentage"))
+        else if(newValue.equals("Alcohol %: high to low"))
         {
-            Collections.sort(drinks, new PercentComparator()); //sorts the products by most percentage
+            Collections.sort(drinks, new PercentComparatorHighLow()); //sorts the products by most percentage
+        }
+        else if(newValue.equals("Alcohol %: low to High"))
+        {
+            Collections.sort(drinks, new PercentComparatorLowHigh()); //sorts the products by most percentage
         }
         refresh();
     }
