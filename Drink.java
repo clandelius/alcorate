@@ -17,10 +17,10 @@ public class Drink {
      * @param name of the drink
      * @param price of the drink
      * @param type is either whiskey or cognac
-     * @param alcoholPercentage of the drink
+     * @param alcoholpercentage of the drink
      * @param year is the production year of the drink
      */
-    public Drink(String name, String price, String type, String alcoholPercentage, int year) {
+    public Drink(String name, String price, String type, String alcoholpercentage, int year) {
         this.name = name;
         this.price = price;
         this.type = type;
