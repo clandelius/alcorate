@@ -16,6 +16,13 @@ public class AgeComparatorHighLow implements Comparator<Drink> {
         int d1Year = d1.getYear();
         int d2Year = d2.getYear();
 
+        if (d1Year == 9999) {
+            d1Year = -1;
+        }
+        if (d2Year == 9999) {
+            d2Year = -1;
+        }
+
         int difference = d1Year - d2Year;
         return -difference;
     }
