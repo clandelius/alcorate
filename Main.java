@@ -23,7 +23,7 @@ import java.util.List;
 public class Main extends Application{
 
     private Stage window;
-    private Scene startScene, kidScene, mainScene, searchScene;
+    private Scene kidScene, mainScene, searchScene;
     private Image upVoteImage = new Image(getClass().getResourceAsStream("upvote.png"));
     private Image downVoteImage = new Image(getClass().getResourceAsStream("downvote.png"));
     private Products products = new Products();
@@ -36,7 +36,6 @@ public class Main extends Application{
         launch(args);
     }
 
-
     @Override
     public void start(Stage primaryStage) throws Exception{
         window = primaryStage;
@@ -48,7 +47,6 @@ public class Main extends Application{
         welcome.setTextFill(Color.WHITE);
         welcome.setEffect(ds);
         welcome.setFont(new Font("Arial",50));
-
 
         Label kidLabel = new Label("Minors are welcome back\n    when they're of age");
         kidLabel.setTextFill(Color.PINK);
@@ -65,10 +63,6 @@ public class Main extends Application{
         kidStackPane.setId("otherview");
         kidStackPane.getChildren().add(kidLayout);
         kidLayout.setAlignment(Pos.CENTER);
-
-
-
-
 
         //Button 1
         Button button1 = new Button("I am under the age of 20");
@@ -89,8 +83,6 @@ public class Main extends Application{
         root.getChildren().add(startLayout);
         startLayout.setAlignment(Pos.CENTER);
 
-
-
         //Alcorate layout
         mainScene = new Scene(createContent(drinks), 600, 600);
 
@@ -99,7 +91,7 @@ public class Main extends Application{
         window.show();
     }
 
-    public class HBoxCell extends HBox {
+    private class HBoxCell extends HBox {
         Label label = new Label();
         Label emptyLabel = new Label(" ");
 
@@ -126,10 +118,9 @@ public class Main extends Application{
     }
 
 
-    public Parent createContent(ArrayList<Drink> drinks) {
+    private Parent createContent(ArrayList<Drink> drinks) {
         BorderPane layout = new BorderPane();
         HBox hBox = new HBox(20);
-        HBox searchBox = new HBox(20);
 
         //Drop menu
         comboBox = new ComboBox<>();
@@ -152,67 +143,39 @@ public class Main extends Application{
         //Actions when choosing in the drop menu
         //call new setEvents method
         comboBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> setEvents(newValue));
-        hBox.getChildren().addAll(comboBox);
-        hBox.setAlignment(Pos.TOP_RIGHT);
-
-
-
-        layout.setTop(hBox);
-
-
-
 
         // Search function
-        searchText = new TextField();
-        Label searchLabel = new Label("First Text");
+        searchText = new TextField ();
+        HBox searchBox = new HBox();
         Button searchButton = new Button("Search:");
-        searchButton.setFont(new Font("Arial", 15));
-        searchLabel.setPadding(new Insets(20, 30, 20, 30));
-        searchButton.setPadding(new Insets(10, 40, 10, 40));
-        searchText.setPadding(new Insets(10, 80, 10, 80));
-        searchButton.setText("S");
-
-        searchBox.getChildren().addAll(searchButton, searchText, searchLabel);
-        layout.getChildren().addAll(searchBox);
-
-        searchBox.setAlignment(Pos.TOP_LEFT);
+        searchBox.getChildren().addAll(searchButton, searchText);
+        searchBox.setSpacing(10);
 
         searchButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //System.out.println("The button has been pressed");
-
-                //searchLabel.setText((searchText.getText()));
 
                 int index = searchFunction(searchText.getText());
                 Label sLabel;
 
                 if(index == -1) {
-
-                    //sLabel = new Label("No such drink!");
-                    searchLabel.setText("No such drink!");
+                    sLabel = new Label("No such drink!");
                 }
                 else {
-                    //sLabel = new Label("The drink does exist: " + drinks.get(index).getName());
-                    searchLabel.setText("The drink does\n exist: " + drinks.get(index).getName());
+                    sLabel = new Label("The drink does exist: \n" + drinks.get(index).getDrinkString());
                 }
 
-                /*
                 sLabel.setTextFill(Color.WHITE);
                 sLabel.setAlignment(Pos.CENTER);
-                sLabel.setFont(new Font("Arial", 40));
-                */
-                searchLabel.setTextFill(Color.WHITE);
-                searchLabel.setAlignment(Pos.CENTER);
-                searchLabel.setFont(new Font("Arial", 15));
+                sLabel.setFont(new Font("Arial", 15));
 
-                //Kid layout
+                //Search layout
                 VBox searchLayout = new VBox(20);
                 StackPane searchStackPane = new StackPane();
                 Button returnButton = new Button("Go back to menu");
                 returnButton.setAlignment(Pos.TOP_LEFT);
                 returnButton.setOnAction(e ->window.setScene(mainScene));
-                searchLayout.getChildren().addAll(searchLabel, returnButton);
+                searchLayout.getChildren().addAll(sLabel, returnButton);
                 searchScene = new Scene(searchStackPane, 600, 500);
                 searchScene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
                 searchStackPane.setId("otherview");
@@ -223,28 +186,14 @@ public class Main extends Application{
             }
         });
 
+        //set top part of view
+        hBox.getChildren().addAll(searchBox, comboBox);
+        hBox.setAlignment(Pos.TOP_RIGHT);
+        hBox.setSpacing(170);
 
+        layout.setTop(hBox);
 
-        /*
-        BorderPane searchPane = new BorderPane(); // A new top pane?
-        searchPane.setTop(searchText);
-        searchPane.setRight(searchButton);
-        searchPane.setCenter(searchLabel);
-        layout.setBottom(searchText);
-        layout.setBottom(searchButton);
-        layout.setBottom(searchLabel);
-
-
-        searchScene = new Scene(searchPane);
-        */
-
-        //layout.setBottom(searchBox);
-
-
-
-
-
-
+        //list view
         List<HBoxCell> list = new ArrayList<>();
         for (Drink drink : drinks) {
             list.add(new HBoxCell(drink.getDrinkString(), drink));
